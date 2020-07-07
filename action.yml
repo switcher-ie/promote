@@ -1,0 +1,16 @@
+# action.yml
+name: 'Promote'
+inputs:
+  namespace:
+    required: true
+  overlay:
+    required: true
+  tag:
+    required: true
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.namespace }}
+    - ${{ inputs.overlay }}
+    - ${{ inputs.tag }}
