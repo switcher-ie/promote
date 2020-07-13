@@ -28,16 +28,6 @@ GIT_SHA=$2
 
 DIR="$(dirname "${BASH_SOURCE[0]}")"
 
-################################################################################
-# Guard against local changes
-################################################################################
-
-if [ -z "$BUILD_UNCOMMITTED_CHANGES" ] && ! git diff-files --quiet --; then
-  echo "You have uncommitted changes, if you proceed you will create a build" \
-       "against a git ref that is different from the changes in the commit" \
-       "to override this warning use BUILD_UNCOMMITTED_CHANGES=1"
-  exit 1
-fi
 
 ################################################################################
 # Setup Environment
