@@ -17,6 +17,10 @@ echo "NAMESPACE is $NAMESPACE"
 echo "ENVIRONMENT is $ENVIRONMENT"
 echo "REPOSITORY is $REPOSITORY"
 
+cd $GITHUB_WORKSPACE
+
+cd $GITHUB_WORKSPACE
+
 # Build Image
 
 /deploy/build "${TAG}" "${GIT_SHA}" "${REPOSITORY}"
