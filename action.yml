@@ -3,3 +3,25 @@ description: 'Deploys the code to an environment'
 runs:
   using: 'docker'
   image: 'Dockerfile'
+  args:
+    - ${{ inputs.name }}
+    - ${{ inputs.tag }}
+    - ${{ inputs.git_sha }}
+    - ${{ inputs.namespace }}
+    - ${{ inputs.environment }}
+inputs:
+  name:
+    description: 'Name of the app'
+    required: true
+  tag:
+    description: 'Built tag and version number'
+    required: true
+  git_sha:
+    description: 'Git sha of the commit'
+    required: true
+  namespace:
+    description: 'Kubernetes namespace to deploy to'
+    required: true
+  environment:
+    description: 'Environment to deploy in (eg. staging, production)'
+    required: true

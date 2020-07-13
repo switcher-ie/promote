@@ -1,19 +1,32 @@
 #!/usr/bin/env bash
 
-echo "ANOTHER_ENV_VAR $ANOTHER_ENV_VAR"
+################################################################################
+# Set Variables
+################################################################################
+NAME="$1"
+TAG="$2"
+GIT_SHA="$3"
+NAMESPACE="$4"
+ENVIRONMENT="$5"
 
-# # Build Image
+echo "NAME is $NAME"
+echo "TAG is $TAG"
+echo "GIT_SHA is $GIT_SHA"
+echo "NAMESPACE is $NAMESPACE"
+echo "ENVIRONMENT is $ENVIRONMENT"
 
-# ./bin/deploy/build "${{ steps.tag.outputs.tag }}" "$GITHUB_SHA"
+# Build Image
 
-# # Push Image
+./bin/build "${TAG}" "${GIT_SHA}"
 
-# ./bin/deploy/push "${{ steps.tag.outputs.tag }}"
+# # # Push Image
 
-# # Promote
+# ./bin/build/push "${{ steps.tag.outputs.tag }}"
 
-# ./bin/deploy/promote "${{ steps.namespace.outputs.namespace }}" "staging" "${{ steps.tag.outputs.tag }}"
+# # # Promote
 
-# # Notify Slack
+# ./bin/build/promote "${{ steps.namespace.outputs.namespace }}" "staging" "${{ steps.tag.outputs.tag }}"
 
-# ./bin/deploy/slack "${{ secrets.SLACK_WEBHOOK }}" "development" "Vertical Products" "$GITHUB_SHA" "https://github.com/$GITHUB_REPOSITORY/commit/$GITHUB_SHA" "${{ steps.tag.outputs.tag }}" "${{ steps.namespace.outputs.namespace }}"
+# # # Notify Slack
+
+# ./bin/build/slack "${{ secrets.SLACK_WEBHOOK }}" "development" "Vertical Products" "$GITHUB_SHA" "https://github.com/$GITHUB_REPOSITORY/commit/$GITHUB_SHA" "${{ steps.tag.outputs.tag }}" "${{ steps.namespace.outputs.namespace }}"

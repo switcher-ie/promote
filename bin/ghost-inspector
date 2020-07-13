@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+set -eo pipefail
+
+################################################################################
+# Validate Inputs
+################################################################################
+
+function usage {
+    echo "usage: $0 [api_key] [suite]"
+    echo "  api_key    Ghost inspector api key (eg. ad89ad7a8sd789as89das...)"
+    echo "  suite      Suite if of of the tests to run (eg. 23821903810...)"
+    exit 1
+}
+
+[ -z "$1" ] && { usage; }
+
+################################################################################
+# Set Inputs
+################################################################################
+
+API_KEY=$1
+SUITE=$2
+
+################################################################################
+# Trigger Ghost Inspector Test Suite
+################################################################################
+
+curl "https://api.ghostinspector.com/v1/suites/$SUITE/execute/?immediate=1&apiKey=$API_KEY"
+
