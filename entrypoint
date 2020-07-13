@@ -20,9 +20,13 @@ echo "REPOSITORY is $REPOSITORY"
 echo "GITHUB_WORKSPACE is $GITHUB_WORKSPACE"
 
 pwd
+ls
 
 cat /github/workspace/Dockerfile
 cat /github/workspace/config.ru
+
+cd /
+ls
 
 
 # Build Image
