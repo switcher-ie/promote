@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+echo "AWS_DEFAULT_REGION $AWS_DEFAULT_REGION"
+
+# # Build Image
+
+# ./bin/deploy/build "${{ steps.tag.outputs.tag }}" "$GITHUB_SHA"
+
+# # Push Image
+
+# ./bin/deploy/push "${{ steps.tag.outputs.tag }}"
+
+# # Promote
+
+# ./bin/deploy/promote "${{ steps.namespace.outputs.namespace }}" "staging" "${{ steps.tag.outputs.tag }}"
+
+# # Notify Slack
+
+# ./bin/deploy/slack "${{ secrets.SLACK_WEBHOOK }}" "development" "Vertical Products" "$GITHUB_SHA" "https://github.com/$GITHUB_REPOSITORY/commit/$GITHUB_SHA" "${{ steps.tag.outputs.tag }}" "${{ steps.namespace.outputs.namespace }}"
