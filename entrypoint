@@ -24,12 +24,12 @@ echo "GITHUB_WORKSPACE is $GITHUB_WORKSPACE"
 
 # # Push Image
 
-/deploy/build/push "${TAG}"
+/deploy/push "${TAG}"
 
 # # # Promote
 
-# /deploy/build/promote "${{ steps.namespace.outputs.namespace }}" "staging" "${{ steps.tag.outputs.tag }}"
+# /deploy/promote "${{ steps.namespace.outputs.namespace }}" "staging" "${{ steps.tag.outputs.tag }}"
 
 # # # Notify Slack
 
-# /deploy/build/slack "${{ secrets.SLACK_WEBHOOK }}" "development" "Vertical Products" "$GITHUB_SHA" "https://github.com/$GITHUB_REPOSITORY/commit/$GITHUB_SHA" "${{ steps.tag.outputs.tag }}" "${{ steps.namespace.outputs.namespace }}"
+# /deploy/slack "${{ secrets.SLACK_WEBHOOK }}" "development" "Vertical Products" "$GITHUB_SHA" "https://github.com/$GITHUB_REPOSITORY/commit/$GITHUB_SHA" "${{ steps.tag.outputs.tag }}" "${{ steps.namespace.outputs.namespace }}"
