@@ -7,9 +7,10 @@ set -eo pipefail
 ################################################################################
 
 function usage {
-    echo "usage: $0 [tag] [git_sha]"
+    echo "usage: $0 [tag] [git_sha] [repository]"
     echo "  tag         tag of the image version (eg. latest)"
     echo "  git_sha     sha of the git commit (eg. sd89a7dasd798asd7...)"
+    echo "  repository  ECR build repository (eg. broadband-plans)"
     exit 1
 }
 
@@ -39,7 +40,7 @@ source ${DIR}/env
 # Set Variables
 ################################################################################
 
-IMAGE="$ENDPOINT/$APP:$TAG"
+IMAGE="$ENDPOINT/$SLUG:$TAG"
 
 ################################################################################
 # Build Image

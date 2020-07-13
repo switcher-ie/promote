@@ -11,7 +11,7 @@ runs:
     - ${{ inputs.environment }}
 inputs:
   name:
-    description: 'Name of the app'
+    description: 'Name of the app (eg. Broadband Plans)'
     required: true
   tag:
     description: 'Built tag and version number'
