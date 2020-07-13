@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+
+################################################################################
+# Set Variables
+################################################################################
+NAME="$1"
+TAG="$2"
+GIT_SHA="$3"
+NAMESPACE="$4"
+ENVIRONMENT="$5"
+
+echo "NAME is $NAME"
+echo "TAG is $TAG"
+echo "GIT_SHA is $GIT_SHA"
+echo "NAMESPACE is $NAMESPACE"
+echo "ENVIRONMENT is $ENVIRONMENT"
+
+ls
+cd deploy && ls
+pwd
+
+# Build Image
+
+/deploy/build "${TAG}" "${GIT_SHA}"
+
+# # Push Image
+
+# /deploy/build/push "${{ steps.tag.outputs.tag }}"
+
+# # # Promote
+
+# /deploy/build/promote "${{ steps.namespace.outputs.namespace }}" "staging" "${{ steps.tag.outputs.tag }}"
+
+# # # Notify Slack
+
+# /deploy/build/slack "${{ secrets.SLACK_WEBHOOK }}" "development" "Vertical Products" "$GITHUB_SHA" "https://github.com/$GITHUB_REPOSITORY/commit/$GITHUB_SHA" "${{ steps.tag.outputs.tag }}" "${{ steps.namespace.outputs.namespace }}"
