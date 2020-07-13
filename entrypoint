@@ -4,10 +4,10 @@
 # Set Variables
 ################################################################################
 NAME="$1"
-TAG="$3"
-GIT_SHA="$4"
-NAMESPACE="$5"
-ENVIRONMENT="$6"
+TAG="$2"
+GIT_SHA="$3"
+NAMESPACE="$4"
+ENVIRONMENT="$5"
 REPOSITORY="${GITHUB_REPOSITORY/switcher-ie\//}"
 
 echo "NAME is $NAME"
