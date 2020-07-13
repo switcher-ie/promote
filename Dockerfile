@@ -1,6 +1,6 @@
 FROM alpine:latest
 
-RUN apk add bash
+RUN apk add bash git
 
 ADD entrypoint /entrypoint
 ADD deploy /deploy
