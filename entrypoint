@@ -24,7 +24,7 @@ echo "GITHUB_WORKSPACE is $GITHUB_WORKSPACE"
 
 # # Push Image
 
-# /deploy/build/push "${{ steps.tag.outputs.tag }}"
+/deploy/build/push "${TAG}"
 
 # # # Promote
 
