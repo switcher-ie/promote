@@ -19,8 +19,8 @@ echo "REPOSITORY is $REPOSITORY"
 
 echo "GITHUB_WORKSPACE is $GITHUB_WORKSPACE"
 
-cd $GITHUB_WORKSPACE
-ls
+echo $(pwd)
+echo $(ls)
 
 # Build Image
 
