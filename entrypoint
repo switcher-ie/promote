@@ -15,10 +15,6 @@ echo "GIT_SHA is $GIT_SHA"
 echo "NAMESPACE is $NAMESPACE"
 echo "ENVIRONMENT is $ENVIRONMENT"
 
-ls
-cd deploy && ls
-pwd
-
 # Build Image
 
 /deploy/build "${TAG}" "${GIT_SHA}"

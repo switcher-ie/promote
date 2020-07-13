@@ -2,7 +2,7 @@ FROM alpine:latest
 
 RUN apk add bash
 
-ADD entrypoint /
-ADD deploy /
+ADD entrypoint /entrypoint
+ADD deploy /deploy
 
 ENTRYPOINT [ "/entrypoint" ]
