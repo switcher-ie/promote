@@ -21,7 +21,7 @@ echo "GITHUB_WORKSPACE is $GITHUB_WORKSPACE"
 
 echo $(pwd)
 echo $(ls)
-cat Dockerfile
+cat $GITHUB_WORKSPACE/Dockerfile
 
 # Build Image
 
