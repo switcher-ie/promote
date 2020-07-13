@@ -21,6 +21,9 @@ echo "GITHUB_WORKSPACE is $GITHUB_WORKSPACE"
 
 pwd
 ls
+cd ..
+pwd
+ls
 
 cat /github/workspace/Dockerfile
 cat /github/workspace/config.ru

@@ -5,4 +5,4 @@ RUN apk add bash git docker
 ADD entrypoint /entrypoint
 ADD deploy /deploy
 
-ENTRYPOINT [ "/entrypoint" ]
+CMD [ "/entrypoint" ]
