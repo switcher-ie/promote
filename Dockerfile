@@ -4,4 +4,4 @@ RUN apk add bash
 
 ADD deploy .
 
-ENTRYPOINT [ "./deploy" ]
+ENTRYPOINT [ "/deploy" ]
