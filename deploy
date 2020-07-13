@@ -17,16 +17,16 @@ echo "ENVIRONMENT is $ENVIRONMENT"
 
 # Build Image
 
-./bin/build "${TAG}" "${GIT_SHA}"
+/bin/build "${TAG}" "${GIT_SHA}"
 
 # # # Push Image
 
-# ./bin/build/push "${{ steps.tag.outputs.tag }}"
+# /bin/build/push "${{ steps.tag.outputs.tag }}"
 
 # # # Promote
 
-# ./bin/build/promote "${{ steps.namespace.outputs.namespace }}" "staging" "${{ steps.tag.outputs.tag }}"
+# /bin/build/promote "${{ steps.namespace.outputs.namespace }}" "staging" "${{ steps.tag.outputs.tag }}"
 
 # # # Notify Slack
 
-# ./bin/build/slack "${{ secrets.SLACK_WEBHOOK }}" "development" "Vertical Products" "$GITHUB_SHA" "https://github.com/$GITHUB_REPOSITORY/commit/$GITHUB_SHA" "${{ steps.tag.outputs.tag }}" "${{ steps.namespace.outputs.namespace }}"
+# /bin/build/slack "${{ secrets.SLACK_WEBHOOK }}" "development" "Vertical Products" "$GITHUB_SHA" "https://github.com/$GITHUB_REPOSITORY/commit/$GITHUB_SHA" "${{ steps.tag.outputs.tag }}" "${{ steps.namespace.outputs.namespace }}"
