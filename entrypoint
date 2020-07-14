@@ -35,6 +35,6 @@ push "${TAG}" "${APP}"
 
 promote "${NAMESPACE}" "${ENVIRONMENT}" "${TAG}" "${APP}"
 
-# # # Notify Slack
+# Notify Slack
 
-# slack "${{ secrets.SLACK_WEBHOOK }}" "development" "Vertical Products" "$GITHUB_SHA" "https://github.com/$GITHUB_REPOSITORY/commit/$GITHUB_SHA" "${{ steps.tag.outputs.tag }}" "${{ steps.namespace.outputs.namespace }}"
+slack "${SLACK_WEBHOOK}" "development" "${NAME}" "$GIT_SHA" "https://github.com/$GITHUB_REPOSITORY/commit/$GIT_SHA" "${TAG}" "${NAMESPACE}"
