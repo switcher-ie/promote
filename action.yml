@@ -1,5 +1,5 @@
-name: 'Promotes'
-description: 'Promotes the code to an environment'
+name: 'Promote'
+description: 'Promotes the code to a Kubernetes environment'
 runs:
   using: 'docker'
   image: 'Dockerfile'
