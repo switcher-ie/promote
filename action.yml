@@ -6,7 +6,7 @@ runs:
   args:
     - ${{ inputs.name }}
     - ${{ inputs.namespace }}
-    - ${{ inputs.environment }}
+    - ${{ inputs.overlay }}
 inputs:
   name:
     description: 'Name of the app (eg. Broadband Plans)'
