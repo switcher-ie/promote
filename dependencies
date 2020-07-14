@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+
+set -eo pipefail
+
+################################################################################
+# AWS
+################################################################################
+curl -o awscli-bundle.zip "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip"
+unzip -o awscli-bundle.zip
+./awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws
+rm -rf awscli-bundle awscli-bundle.zip
+
+
+################################################################################
+# Yq
+################################################################################
+curl -s https://api.github.com/repos/mikefarah/yq/releases/latest |\
+    jq -r '.assets[].browser_download_url' |\
+    grep yq_linux_amd64 |\
+    xargs curl -O -L
+chmod +x yq_linux_amd64
+mv yq_linux_amd64 /usr/local/bin/yq
+
+
+################################################################################
+# Kubectl
+################################################################################
+curl -o /usr/local/bin/kubectl https://storage.googleapis.com/kubernetes-release/release/v1.18.5/bin/linux/amd64/kubectl
+chmod +x /usr/local/bin/kubectl
+
+
+################################################################################
+# Kustomize
+################################################################################
+curl -s https://api.github.com/repos/kubernetes-sigs/kustomize/releases/tags/kustomize/v3.4.0 |\
+    jq -r '.assets[].browser_download_url' |\
+    grep linux_amd64 |\
+    xargs curl -o kustomize.tar.gz -L
+tar -xzvf "kustomize.tar.gz"
+chmod +x kustomize
+mv kustomize /usr/local/bin/kustomize
+rm kustomize.tar.gz
