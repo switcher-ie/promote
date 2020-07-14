@@ -7,7 +7,6 @@ runs:
     - ${{ inputs.name }}
     - ${{ inputs.namespace }}
     - ${{ inputs.environment }}
-    - ${{ inputs.slack_webhook }}
 inputs:
   name:
     description: 'Name of the app (eg. Broadband Plans)'
@@ -15,9 +14,6 @@ inputs:
   namespace:
     description: 'Kubernetes namespace to deploy to'
     required: true
-  environment:
-    description: 'Environment to deploy in (eg. staging, production)'
-    required: true
-  slack_webhook:
-    description: 'Slack webhook to post notifications'
+  overlay:
+    description: 'Kustomize overlay to apply (eg. staging, production)'
     required: true
