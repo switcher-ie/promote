@@ -7,7 +7,7 @@ set -eo pipefail
 ################################################################################
 
 function usage {
-    echo "usage: $0 [namespace] [bucket_name]"
+    echo "usage: $0 [namespace]"
     echo "  namespace    namespace to publish assets to (eg. production)"
     exit 1
 }
@@ -25,6 +25,11 @@ NAMESPACE=$1
 ################################################################################
 
 BUCKET_NAME="switcher-$NAMESPACE-cms-assets"
+
+pwd
+ls
+cd public
+ls
 
 ################################################################################
 # Publish Assets to S3
