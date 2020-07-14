@@ -38,6 +38,10 @@ source ${DIR}/env
 # Set Variables
 ################################################################################
 
+echo "$ENDPOINT"
+echo "$REPOSITORY"
+echo "$TAG"
+
 IMAGE="$ENDPOINT/$REPOSITORY:$TAG"
 echo $IMAGE
 
