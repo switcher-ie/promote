@@ -6,6 +6,6 @@ COPY dependencies dependencies
 RUN chmod +x dependencies && ./dependencies && rm dependencies
 
 ADD entrypoint /entrypoint
-ADD deploy /deploy
+ADD bin /bin
 
 ENTRYPOINT [ "/entrypoint" ]
