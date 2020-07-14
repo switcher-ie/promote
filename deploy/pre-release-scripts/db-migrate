@@ -10,6 +10,7 @@ function usage {
     echo "usage: $0 [namespace] [tag]"
     echo "  namespace    namespace to promote the image (eg. production)"
     echo "  tag          tag of the image version (eg. latest)"
+    echo "  app          Slug of the app (eg. broadband-plans)"
     exit 1
 }
 
@@ -21,14 +22,13 @@ function usage {
 
 NAMESPACE=$1
 TAG=$2
+APP=$3
 
 ################################################################################
 # Constants
 ################################################################################
 
 DIR="$(dirname "${BASH_SOURCE[0]}")"
-ROOT="$(readlink -f ${DIR}/../../../)"
-DEPLOY="${ROOT}/deploy"
 
 ################################################################################
 # Setup Environment
@@ -46,7 +46,7 @@ REPOSITORY="$ENDPOINT/$APP"
 # Set migration properties
 ################################################################################
 
-pushd $DEPLOY/pre-release
+pushd k8s/pre-release
 $debug kustomize edit set image unset=$REPOSITORY:$TAG
 popd
 
@@ -62,7 +62,7 @@ fi
 # Run migration
 ################################################################################
 
-$debug kubectl apply -k $DEPLOY/pre-release -n $NAMESPACE
+$debug kubectl apply -k k8s/pre-release -n $NAMESPACE
 $debug kubectl wait --for=condition=complete job/$APP-migration --timeout=15m -n $NAMESPACE
 
 ################################################################################

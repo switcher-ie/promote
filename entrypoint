@@ -8,29 +8,29 @@ TAG="$2"
 GIT_SHA="$3"
 NAMESPACE="$4"
 ENVIRONMENT="$5"
-REPOSITORY="${GITHUB_REPOSITORY/switcher-ie\//}"
+APP="${GITHUB_REPOSITORY/switcher-ie\//}"
 
 echo "NAME is $NAME"
 echo "TAG is $TAG"
 echo "GIT_SHA is $GIT_SHA"
 echo "NAMESPACE is $NAMESPACE"
 echo "ENVIRONMENT is $ENVIRONMENT"
-echo "REPOSITORY is $REPOSITORY"
+echo "APP is $APP"
 echo "GITHUB_WORKSPACE is $GITHUB_WORKSPACE"
 
 export PATH="$PATH:/deploy"
 
 # Build Image
 
-build "${TAG}" "${GIT_SHA}" "${REPOSITORY}"
+build "${TAG}" "${GIT_SHA}" "${APP}"
 
 # # Push Image
 
-push "${TAG}" "${REPOSITORY}"
+push "${TAG}" "${APP}"
 
 # Promote
 
-promote "${NAMESPACE}" "${ENVIRONMENT}" "${TAG}" "${REPOSITORY}"
+promote "${NAMESPACE}" "${ENVIRONMENT}" "${TAG}" "${APP}"
 
 # # # Notify Slack
 

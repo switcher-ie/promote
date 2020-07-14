@@ -10,6 +10,7 @@ function usage {
     echo "usage: $0 [namespace] [tag]"
     echo "  namespace    namespace to promote the image (eg. production)"
     echo "  tag          tag of the image version (eg. latest)"
+    echo "  app          Slug of the app (eg. broadband-plans)"
     exit 1
 }
 
@@ -21,6 +22,7 @@ function usage {
 
 NAMESPACE=$1
 TAG=$2
+APP=$3
 
 ################################################################################
 # Constants
@@ -32,4 +34,4 @@ DIR="$(dirname "${BASH_SOURCE[0]}")"
 # Execute Pre Release Scripts
 ################################################################################
 
-${DIR}/pre-release-scripts/db-migrate $NAMESPACE $TAG
+${DIR}/pre-release-scripts/db-migrate $NAMESPACE $TAG $APP

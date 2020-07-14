@@ -11,7 +11,7 @@ function usage {
     echo "  namespace    namespace to promote the image (eg. production)"
     echo "  overlay      kustomize overlay to apply (eg. indigo)"
     echo "  tag          tag of the image version (eg. latest)"
-    echo "  repository  ECR build repository (eg. broadband-plans)"
+    echo "  app          Slug of the app (eg. broadband-plans)"
     exit 1
 }
 
@@ -24,7 +24,7 @@ function usage {
 NAMESPACE=$1
 OVERLAY=$2
 TAG=$3
-REPOSITORY=$4
+APP=$4
 
 ################################################################################
 # Constants
@@ -42,7 +42,7 @@ source ${DIR}/env
 # Set Variables
 ################################################################################
 
-REPOSITORY="$ENDPOINT/$REPOSITORY"
+REPOSITORY="$ENDPOINT/$APP"
 IMAGE="$REPOSITORY:$TAG"
 
 ################################################################################
@@ -79,7 +79,7 @@ $debug aws eks update-kubeconfig --name $CLUSTER
 # Run PreRelease
 ################################################################################
 
-${DIR}/pre-release "${NAMESPACE}" "${TAG}"
+${DIR}/pre-release "${NAMESPACE}" "${TAG}" "${APP}"
 
 ################################################################################
 # Set properties
