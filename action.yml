@@ -9,6 +9,7 @@ runs:
     - ${{ inputs.git_sha }}
     - ${{ inputs.namespace }}
     - ${{ inputs.environment }}
+    - ${{ inputs.slack_webhook }}
 inputs:
   name:
     description: 'Name of the app (eg. Broadband Plans)'
@@ -24,4 +25,7 @@ inputs:
     required: true
   environment:
     description: 'Environment to deploy in (eg. staging, production)'
+    required: true
+  slack_webhook:
+    description: 'Slack webhook to post notifications'
     required: true

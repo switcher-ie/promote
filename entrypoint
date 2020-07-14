@@ -8,6 +8,8 @@ TAG="$2"
 GIT_SHA="$3"
 NAMESPACE="$4"
 ENVIRONMENT="$5"
+SLACK_WEBHOOK="$6"
+
 APP="${GITHUB_REPOSITORY/switcher-ie\//}"
 
 export ENDPOINT="285532152610.dkr.ecr.eu-west-1.amazonaws.com"
@@ -20,6 +22,7 @@ echo "NAMESPACE is $NAMESPACE"
 echo "ENVIRONMENT is $ENVIRONMENT"
 echo "APP is $APP"
 echo "GITHUB_WORKSPACE is $GITHUB_WORKSPACE"
+echo "SLACK_WEBHOOK is $SLACK_WEBHOOK"
 
 export PATH="$PATH:/deploy"
 
@@ -27,7 +30,7 @@ export PATH="$PATH:/deploy"
 
 build "${TAG}" "${GIT_SHA}" "${APP}"
 
-# # Push Image
+# Push Image
 
 push "${TAG}" "${APP}"
 
