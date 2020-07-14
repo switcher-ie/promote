@@ -35,5 +35,5 @@ ls
 # Publish Assets to S3
 ################################################################################
 
-aws s3 cp --recursive --cache-control "public, max-age=31536000" "public/assets" "s3://$BUCKET_NAME/assets"
-aws s3 cp --recursive --cache-control "public, max-age=31536000" "public/packs" "s3://$BUCKET_NAME/packs"
+aws s3 cp --recursive --cache-control "public, max-age=31536000" "$GITHUB_WORKSPACE/public/assets" "s3://$BUCKET_NAME/assets"
+aws s3 cp --recursive --cache-control "public, max-age=31536000" "$GITHUB_WORKSPACE/public/packs" "s3://$BUCKET_NAME/packs"
