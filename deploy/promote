@@ -11,6 +11,7 @@ function usage {
     echo "  namespace    namespace to promote the image (eg. production)"
     echo "  overlay      kustomize overlay to apply (eg. indigo)"
     echo "  tag          tag of the image version (eg. latest)"
+    echo "  repository  ECR build repository (eg. broadband-plans)"
     exit 1
 }
 
@@ -23,18 +24,13 @@ function usage {
 NAMESPACE=$1
 OVERLAY=$2
 TAG=$3
-
-echo "TAG IS $TAG"
-echo "OVERLAY IS $OVERLAY"
-echo "NAMESPACE IS $NAMESPACE"
+REPOSITORY=$4
 
 ################################################################################
 # Constants
 ################################################################################
 
 DIR="$(dirname "${BASH_SOURCE[0]}")"
-ROOT="$(readlink -f ${DIR}/../../)"
-DEPLOY="${ROOT}/deploy"
 
 ################################################################################
 # Setup Environment
@@ -46,7 +42,7 @@ source ${DIR}/env
 # Set Variables
 ################################################################################
 
-REPOSITORY="$ENDPOINT/$APP"
+REPOSITORY="$ENDPOINT/$REPOSITORY"
 IMAGE="$REPOSITORY:$TAG"
 
 ################################################################################
@@ -80,23 +76,16 @@ $debug docker push "$IMAGE"
 $debug aws eks update-kubeconfig --name $CLUSTER
 
 ################################################################################
-# Create build directory
-################################################################################
-
-rm -rf $DEPLOY
-cp -rf ${ROOT}/k8s $DEPLOY
-
-################################################################################
 # Run PreRelease
 ################################################################################
 
-${DIR}/pre-release $NAMESPACE $TAG
+${DIR}/pre-release "${NAMESPACE}" "${TAG}"
 
 ################################################################################
 # Set properties
 ################################################################################
 
-pushd $DEPLOY/overlays/$OVERLAY
+pushd k8s/overlays/$OVERLAY
 $debug kustomize edit set image unset=$REPOSITORY:$TAG
 popd
 
@@ -104,13 +93,13 @@ popd
 # Generate Schema
 ################################################################################
 
-$debug kustomize build $DEPLOY/overlays/$OVERLAY -o $DEPLOY/patch.yaml
+$debug kustomize build k8s/overlays/$OVERLAY -o k8s/patch.yaml
 
 ################################################################################
 # Update Cluster
 ################################################################################
 
-$debug kubectl apply -f $DEPLOY/patch.yaml -n $NAMESPACE --wait
+$debug kubectl apply -f k8s/patch.yaml -n $NAMESPACE --wait
 
 ################################################################################
 # Wait for Deployments
