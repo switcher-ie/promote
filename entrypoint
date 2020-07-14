@@ -18,18 +18,20 @@ echo "ENVIRONMENT is $ENVIRONMENT"
 echo "REPOSITORY is $REPOSITORY"
 echo "GITHUB_WORKSPACE is $GITHUB_WORKSPACE"
 
+export PATH="$PATH:/deploy"
+
 # Build Image
 
-/deploy/build "${TAG}" "${GIT_SHA}" "${REPOSITORY}"
+build "${TAG}" "${GIT_SHA}" "${REPOSITORY}"
 
 # # Push Image
 
-/deploy/push "${TAG}" "${REPOSITORY}"
+push "${TAG}" "${REPOSITORY}"
 
 # Promote
 
-/deploy/promote "${NAMESPACE}" "${ENVIRONMENT}" "${TAG}"
+promote "${NAMESPACE}" "${ENVIRONMENT}" "${TAG}" "${REPOSITORY}"
 
 # # # Notify Slack
 
-# /deploy/slack "${{ secrets.SLACK_WEBHOOK }}" "development" "Vertical Products" "$GITHUB_SHA" "https://github.com/$GITHUB_REPOSITORY/commit/$GITHUB_SHA" "${{ steps.tag.outputs.tag }}" "${{ steps.namespace.outputs.namespace }}"
+# slack "${{ secrets.SLACK_WEBHOOK }}" "development" "Vertical Products" "$GITHUB_SHA" "https://github.com/$GITHUB_REPOSITORY/commit/$GITHUB_SHA" "${{ steps.tag.outputs.tag }}" "${{ steps.namespace.outputs.namespace }}"

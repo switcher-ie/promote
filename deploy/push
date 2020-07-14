@@ -22,11 +22,6 @@ function usage {
 TAG=$1
 REPOSITORY=$2
 
-echo "hello world"
-echo $TAG
-echo $REPOSITORY
-echo "hello world"
-
 ################################################################################
 # Constants
 ################################################################################
