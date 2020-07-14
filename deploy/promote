@@ -7,7 +7,7 @@ set -eo pipefail
 ################################################################################
 
 function usage {
-    echo "usage: $0 [namespace] [tag] [app]"
+    echo "usage: $0 [namespace] [overlay] [tag] [app]"
     echo "  namespace    namespace to promote the image (eg. production)"
     echo "  overlay      kustomize overlay to apply (eg. indigo)"
     echo "  tag          tag of the image version (eg. latest)"
@@ -15,7 +15,7 @@ function usage {
     exit 1
 }
 
-[ -z "$1" ] && { usage; }
+[ -z "$4" ] && { usage; }
 
 ################################################################################
 # Set Inputs
