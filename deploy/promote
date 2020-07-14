@@ -7,11 +7,11 @@ set -eo pipefail
 ################################################################################
 
 function usage {
-    echo "usage: $0 [namespace] [tag]"
+    echo "usage: $0 [namespace] [tag] [app]"
     echo "  namespace    namespace to promote the image (eg. production)"
     echo "  overlay      kustomize overlay to apply (eg. indigo)"
     echo "  tag          tag of the image version (eg. latest)"
-    echo "  app          Slug of the app (eg. broadband-plans)"
+    echo "  app          slug of the app (eg. broadband-plans)"
     exit 1
 }
 
