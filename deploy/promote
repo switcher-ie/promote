@@ -45,6 +45,11 @@ source ${DIR}/env
 REPOSITORY="$ENDPOINT/$APP"
 IMAGE="$REPOSITORY:$TAG"
 
+echo "hello world"
+echo $REPOSITORY
+echo $IMAGE
+echo "hello world"
+
 ################################################################################
 # Login to AWS
 ################################################################################
