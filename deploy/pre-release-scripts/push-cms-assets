@@ -7,35 +7,28 @@ set -eo pipefail
 ################################################################################
 
 function usage {
-    echo "usage: $0 [namespace] [tag]"
-    echo "  namespace    namespace to promote the image (eg. production)"
-    echo "  tag          tag of the image version (eg. latest)"
-    echo "  app          slug of the app (eg. broadband-plans)"
+    echo "usage: $0 [namespace] [bucket_name]"
+    echo "  namespace    namespace to publish assets to (eg. production)"
     exit 1
 }
 
-[ -z "$3" ] && { usage; }
+[ -z "$1" ] && { usage; }
 
 ################################################################################
 # Set Inputs
 ################################################################################
 
 NAMESPACE=$1
-TAG=$2
-APP=$3
 
 ################################################################################
-# Constants
+# Set Variables
 ################################################################################
 
-DIR="$(dirname "${BASH_SOURCE[0]}")"
+BUCKET_NAME="switcher-$NAMESPACE-cms-assets"
 
 ################################################################################
-# Execute Pre Release Scripts
+# Publish Assets to S3
 ################################################################################
 
-${DIR}/pre-release-scripts/db-migrate $NAMESPACE $TAG $APP
-
-if [ "$APP" == "cms" ]; then
-  ${DIR}/pre-release-scripts/push-cms-assets $NAMESPACE
-fi
+aws s3 cp --recursive --cache-control "public, max-age=31536000" "public/assets" "s3://$BUCKET_NAME/assets"
+aws s3 cp --recursive --cache-control "public, max-age=31536000" "public/packs" "s3://$BUCKET_NAME/packs"
