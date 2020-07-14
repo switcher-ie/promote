@@ -27,8 +27,6 @@ NAMESPACE=$1
 DIR="$(dirname "${BASH_SOURCE[0]}")"
 ROOT="${DIR}/../../"
 
-echo $ROOT
-
 ################################################################################
 # Setup Environment
 ################################################################################
@@ -39,7 +37,7 @@ source ${DIR}/env
 # Wait for each rollout
 ################################################################################
 
-for config in ${ROOT}/k8s/base/deployments/*.yaml; do
+for config in k8s/base/deployments/*.yaml; do
   deployment=$(yq r $config metadata.name)
   $debug kubectl rollout status deployment/$deployment -n $NAMESPACE
 done
