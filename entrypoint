@@ -24,7 +24,7 @@ echo "GITHUB_WORKSPACE is $GITHUB_WORKSPACE"
 
 # # Push Image
 
-/deploy/push "${TAG}"
+/deploy/push "${TAG}" "${REPOSITORY}"
 
 # # # Promote
 

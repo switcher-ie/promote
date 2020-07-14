@@ -9,6 +9,7 @@ set -eo pipefail
 function usage {
     echo "usage: $0 [tag]"
     echo "  tag         tag of the image version (eg. latest)"
+    echo "  repository  ECR build repository (eg. broadband-plans)"
     exit 1
 }
 
@@ -19,6 +20,7 @@ function usage {
 ################################################################################
 
 TAG=$1
+REPOSITORY=$2
 
 ################################################################################
 # Constants
@@ -36,7 +38,7 @@ source ${DIR}/env
 # Set Variables
 ################################################################################
 
-IMAGE="$ENDPOINT/$APP:$TAG"
+IMAGE="$ENDPOINT/$REPOSITORY:$TAG"
 
 ################################################################################
 # Login to AWS
