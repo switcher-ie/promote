@@ -10,6 +10,9 @@ NAMESPACE="$4"
 ENVIRONMENT="$5"
 APP="${GITHUB_REPOSITORY/switcher-ie\//}"
 
+export ENDPOINT="285532152610.dkr.ecr.eu-west-1.amazonaws.com"
+export CLUSTER="switcher"
+
 echo "NAME is $NAME"
 echo "TAG is $TAG"
 echo "GIT_SHA is $GIT_SHA"

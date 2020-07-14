@@ -33,22 +33,11 @@ APP=$4
 DIR="$(dirname "${BASH_SOURCE[0]}")"
 
 ################################################################################
-# Setup Environment
-################################################################################
-
-source ${DIR}/env
-
-################################################################################
 # Set Variables
 ################################################################################
 
 REPOSITORY="$ENDPOINT/$APP"
 IMAGE="$REPOSITORY:$TAG"
-
-echo "hello world"
-echo $REPOSITORY
-echo $IMAGE
-echo "hello world"
 
 ################################################################################
 # Login to AWS
@@ -60,25 +49,25 @@ $(aws ecr get-login --no-include-email)
 # Pull Build Image
 ################################################################################
 
-$debug docker pull "$IMAGE.build"
+docker pull "$IMAGE.build"
 
 ################################################################################
 # Tag Release Image
 ################################################################################
 
-$debug docker tag "$IMAGE.build" "$IMAGE"
+docker tag "$IMAGE.build" "$IMAGE"
 
 ################################################################################
 # Push Release Image
 ################################################################################
 
-$debug docker push "$IMAGE"
+docker push "$IMAGE"
 
 ################################################################################
 # Switch Context
 ################################################################################
 
-$debug aws eks update-kubeconfig --name $CLUSTER
+aws eks update-kubeconfig --name $CLUSTER
 
 ################################################################################
 # Run PreRelease
@@ -91,20 +80,20 @@ ${DIR}/pre-release "${NAMESPACE}" "${TAG}" "${APP}"
 ################################################################################
 
 pushd k8s/overlays/$OVERLAY
-$debug kustomize edit set image unset=$REPOSITORY:$TAG
+kustomize edit set image unset=$REPOSITORY:$TAG
 popd
 
 ################################################################################
 # Generate Schema
 ################################################################################
 
-$debug kustomize build k8s/overlays/$OVERLAY -o k8s/patch.yaml
+kustomize build k8s/overlays/$OVERLAY -o k8s/patch.yaml
 
 ################################################################################
 # Update Cluster
 ################################################################################
 
-$debug kubectl apply -f k8s/patch.yaml -n $NAMESPACE --wait
+kubectl apply -f k8s/patch.yaml -n $NAMESPACE --wait
 
 ################################################################################
 # Wait for Deployments
