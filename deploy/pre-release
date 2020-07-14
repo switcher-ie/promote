@@ -37,5 +37,5 @@ DIR="$(dirname "${BASH_SOURCE[0]}")"
 ${DIR}/pre-release-scripts/db-migrate $NAMESPACE $TAG $APP
 
 if [ "$APP" == "cms" ]; then
-  ${DIR}/pre-release-scripts/push-cms-assets $NAMESPACE
+  ${DIR}/pre-release-scripts/push-cms-assets $NAMESPACE $TAG
 fi

@@ -7,8 +7,9 @@ set -eo pipefail
 ################################################################################
 
 function usage {
-    echo "usage: $0 [namespace]"
+    echo "usage: $0 [namespace] [tag]"
     echo "  namespace    namespace to publish assets to (eg. production)"
+    echo "  tag          tag of the image version (eg. latest)"
     exit 1
 }
 
@@ -19,21 +20,29 @@ function usage {
 ################################################################################
 
 NAMESPACE=$1
+TAG=$2
 
 ################################################################################
 # Set Variables
 ################################################################################
 
+APP="cms"
+REPOSITORY="$ECR_ENDPOINT/$APP"
+IMAGE="$REPOSITORY:$TAG"
 BUCKET_NAME="switcher-$NAMESPACE-cms-assets"
 
-pwd
-ls
-cd public
-ls
+################################################################################
+# Pull assets from container
+################################################################################
+
+PUBLIC="$(mktemp -d)"
+CONTAINER_ID=$(docker create "$IMAGE")
+docker cp "$CONTAINER_ID:/app/public/assets" "$PUBLIC"
+docker cp "$CONTAINER_ID:/app/public/packs" "$PUBLIC"
+docker rm --volumes "$CONTAINER_ID"
 
 ################################################################################
 # Publish Assets to S3
 ################################################################################
 
-aws s3 cp --recursive --cache-control "public, max-age=31536000" "$GITHUB_WORKSPACE/public/assets" "s3://$BUCKET_NAME/assets"
-aws s3 cp --recursive --cache-control "public, max-age=31536000" "$GITHUB_WORKSPACE/public/packs" "s3://$BUCKET_NAME/packs"
+aws s3 cp --recursive --cache-control "public, max-age=31536000" "$PUBLIC/" "s3://$BUCKET_NAME/
