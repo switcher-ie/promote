@@ -4,12 +4,12 @@
 # Set Variables
 ################################################################################
 NAME="$1"
-TAG="$2"
-GIT_SHA="$3"
-NAMESPACE="$4"
-ENVIRONMENT="$5"
-SLACK_WEBHOOK="$6"
+NAMESPACE="$2"
+ENVIRONMENT="$3"
+SLACK_WEBHOOK="$4"
 
+TAG="${GITHUB_SHA::7}"
+GIT_SHA="${GITHUB_SHA}"
 APP="${GITHUB_REPOSITORY/switcher-ie\//}"
 
 export ENDPOINT="285532152610.dkr.ecr.eu-west-1.amazonaws.com"

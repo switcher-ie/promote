@@ -5,20 +5,12 @@ runs:
   image: 'Dockerfile'
   args:
     - ${{ inputs.name }}
-    - ${{ inputs.tag }}
-    - ${{ inputs.git_sha }}
     - ${{ inputs.namespace }}
     - ${{ inputs.environment }}
     - ${{ inputs.slack_webhook }}
 inputs:
   name:
     description: 'Name of the app (eg. Broadband Plans)'
-    required: true
-  tag:
-    description: 'Built tag and version number'
-    required: true
-  git_sha:
-    description: 'Git sha of the commit'
     required: true
   namespace:
     description: 'Kubernetes namespace to deploy to'
