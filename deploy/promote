@@ -36,7 +36,7 @@ DIR="$(dirname "${BASH_SOURCE[0]}")"
 # Set Variables
 ################################################################################
 
-REPOSITORY="$ENDPOINT/$APP"
+REPOSITORY="$ECR_ENDPOINT/$APP"
 IMAGE="$REPOSITORY:$TAG"
 
 ################################################################################
@@ -67,7 +67,7 @@ docker push "$IMAGE"
 # Switch Context
 ################################################################################
 
-aws eks update-kubeconfig --name $CLUSTER
+aws eks update-kubeconfig --name $EKS_CLUSTER
 
 ################################################################################
 # Run PreRelease

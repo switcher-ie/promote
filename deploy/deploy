@@ -13,7 +13,7 @@ function usage {
     exit 1
 }
 
-[ -z "$1" ] && { usage; }
+[ -z "$2" ] && { usage; }
 
 ################################################################################
 # Set Inputs
@@ -34,7 +34,7 @@ DIR="$(dirname "${BASH_SOURCE[0]}")"
 
 TAG=$(git rev-parse --short HEAD)
 GIT_SHA=$(git rev-parse HEAD)
-IMAGE="$ENDPOINT/$APP:$TAG"
+IMAGE="$ECR_ENDPOINT/$APP:$TAG"
 
 ################################################################################
 # Build Image
