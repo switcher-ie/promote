@@ -34,7 +34,7 @@ DIR="$(dirname "${BASH_SOURCE[0]}")"
 # Execute Pre Release Scripts
 ################################################################################
 
-[ ! -d ${DIR}/pre-release-scripts ] && exit 0
+[ ! -d k8s/pre-release ] && exit 0
 
 ${DIR}/pre-release-scripts/db-migrate $NAMESPACE $TAG $APP
 
