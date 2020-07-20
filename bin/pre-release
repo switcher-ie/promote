@@ -34,6 +34,8 @@ DIR="$(dirname "${BASH_SOURCE[0]}")"
 # Execute Pre Release Scripts
 ################################################################################
 
+[ ! -d ${DIR}/pre-release-scripts ] && exit 0
+
 ${DIR}/pre-release-scripts/db-migrate $NAMESPACE $TAG $APP
 
 if [ "$APP" == "cms" ]; then
