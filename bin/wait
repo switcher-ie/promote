@@ -25,6 +25,6 @@ NAMESPACE=$1
 ################################################################################
 
 for config in k8s/base/deployments/*.yaml; do
-  deployment=$(yq r $config metadata.name)
+  deployment=$(yq e '.metadata.name' $config)
   kubectl rollout status deployment/$deployment -n $NAMESPACE
 done
