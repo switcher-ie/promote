@@ -77,7 +77,7 @@ popd
 # Generate Schema
 ################################################################################
 
-kustomize "build k8s/overlays/$ENVIRONMENT" -o k8s/patch.yaml
+kustomize build "k8s/overlays/$ENVIRONMENT" -o k8s/patch.yaml
 
 ################################################################################
 # Update Cluster
