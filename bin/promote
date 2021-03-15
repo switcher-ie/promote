@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 set -eo pipefail
+set -x
 
 ################################################################################
 # Validate Inputs
@@ -43,7 +44,7 @@ RELEASE_IMAGE="$ECR_ENDPOINT/$APP:$TAG"
 # Pull Build Image
 ################################################################################
 
-docker pull $BUILD_IMAGE
+docker pull "$BUILD_IMAGE"
 
 ################################################################################
 # Tag & Push Release Image
