@@ -70,7 +70,7 @@ aws eks update-kubeconfig --name "$EKS_CLUSTER"
 ################################################################################
 
 pushd "k8s/overlays/$ENVIRONMENT"
-kustomize edit set image "unset=$REPOSITORY:$TAG"
+kustomize edit set image unset="$REPOSITORY:$TAG"
 popd
 
 ################################################################################
