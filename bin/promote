@@ -36,28 +36,21 @@ DIR="$(dirname "${BASH_SOURCE[0]}")"
 # Set Variables
 ################################################################################
 
-REPOSITORY="$ECR_ENDPOINT/$APP"
-IMAGE="$REPOSITORY:$TAG"
-
 BUILD_IMAGE="ghcr.io/switcher-ie/$APP:$TAG.build"
+RELEASE_IMAGE="$ECR_ENDPOINT/$APP:$TAG"
 
 ################################################################################
 # Pull Build Image
 ################################################################################
 
-docker pull "$IMAGE.build"
+docker pull $BUILD_IMAGE
 
 ################################################################################
-# Tag Release Image
+# Tag & Push Release Image
 ################################################################################
 
-docker tag "$IMAGE.build" "$IMAGE"
-
-################################################################################
-# Push Release Image
-################################################################################
-
-docker push "$IMAGE"
+docker tag "$BUILD_IMAGE" "$RELEASE_IMAGE"
+docker push "$RELEASE_IMAGE"
 
 ################################################################################
 # Switch Context
