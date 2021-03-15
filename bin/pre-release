@@ -7,22 +7,24 @@ set -eo pipefail
 ################################################################################
 
 function usage {
-    echo "usage: $0 [namespace] [tag]"
-    echo "  namespace    namespace to promote the image (eg. production)"
-    echo "  tag          tag of the image version (eg. latest)"
+    echo "usage: $0 [app] [environment] [namespace] [tag]"
     echo "  app          slug of the app (eg. broadband-plans)"
+    echo "  environment  environment to deploy the application to (staging or production)"
+    echo "  namespace    namespace to promote the image (eg. production / magenta)"
+    echo "  tag          tag of the image to deploy (eg. abcdef0)"
     exit 1
 }
 
-[ -z "$3" ] && { usage; }
+[ -z "$4" ] && { usage; }
 
 ################################################################################
 # Set Inputs
 ################################################################################
 
-NAMESPACE=$1
-TAG=$2
-APP=$3
+APP=$1
+ENVIRONMENT=$2
+NAMESPACE=$3
+TAG=$4
 
 ################################################################################
 # Constants
@@ -36,8 +38,8 @@ DIR="$(dirname "${BASH_SOURCE[0]}")"
 
 [ ! -d k8s/pre-release ] && exit 0
 
-${DIR}/pre-release-scripts/db-migrate $NAMESPACE $TAG $APP
+"${DIR}/pre-release-scripts/db-migrate" "$APP" "$ENVIRONMENT" "$NAMESPACE" "$TAG"
 
 if [ "$APP" == "cms" ]; then
-  ${DIR}/pre-release-scripts/push-cms-assets $NAMESPACE $TAG
+  "${DIR}/pre-release-scripts/push-cms-assets" "$APP" "$ENVIRONMENT" "$NAMESPACE" "$TAG"
 fi

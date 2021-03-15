@@ -2,15 +2,15 @@
 
 set -eo pipefail
 
+set -x
+
 ################################################################################
 # Validate Inputs
 ################################################################################
 
 function usage {
-    echo "usage: $0 [webhook] [channel] [app] [sha]"
+    echo "usage: $0 [name]"
     echo "  name         name of the app (eg. Broadband Plans)"
-    echo "  namespace    Kuberenetes namespace to deploy to (eg. fuchsia)"
-    echo "  overlay      Kubstomize overlay to apply (eg. staging...)"
     exit 1
 }
 
@@ -21,21 +21,37 @@ function usage {
 ################################################################################
 
 NAME="$1"
-NAMESPACE="$2"
-OVERLAY="$3"
 
 ################################################################################
-# Set Variables
+# Extract Variables from GitHub Event Context
 ################################################################################
 
-TAG="${GITHUB_SHA::7}"
-APP="${GITHUB_REPOSITORY/switcher-ie\//}"
+APP="$(jq --raw-output '.repository.name' "$GITHUB_EVENT_PATH")"
+
+DEPLOYMENT_ENVIRONMENT="$(jq --raw-output '.deployment.environment' "$GITHUB_EVENT_PATH")"
+
+if [[ "$DEPLOYMENT_ENVIRONMENT" == "production" ]]; then
+  ENVIRONMENT="production"
+  NAMESPACE="production"
+else
+  ENVIRONMENT="$(echo "$DEPLOYMENT_ENVIRONMENT" | cut -d/ -f1)"
+  NAMESPACE="$(echo "$DEPLOYMENT_ENVIRONMENT" | cut -d/ -f2)"
+fi
+
+DEPLOYMENT_SHA="$(jq --raw-output '.deployment.sha' "$GITHUB_EVENT_PATH")"
+TAG="${DEPLOYMENT_SHA::7}"
 
 ################################################################################
 # Set Path
 ################################################################################
 
 export PATH="$PATH:/bin"
+
+################################################################################
+# Login to GitHub Container Registry
+################################################################################
+
+echo "$INPUT_GITHUB_CONTAINER_REGISTRY_TOKEN" | docker login ghcr.io -u switcher-ie-deploy --password-stdin
 
 ################################################################################
 # Login to ECR
@@ -47,7 +63,7 @@ $(aws ecr get-login --no-include-email)
 # Promote
 ################################################################################
 
-promote "${NAMESPACE}" "${OVERLAY}" "${TAG}" "${APP}"
+promote "${APP}" "${ENVIRONMENT}" "${NAMESPACE}" "${TAG}"
 
 ################################################################################
 # Notify Slack

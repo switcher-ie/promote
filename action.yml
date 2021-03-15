@@ -5,15 +5,10 @@ runs:
   image: 'Dockerfile'
   args:
     - ${{ inputs.name }}
-    - ${{ inputs.namespace }}
-    - ${{ inputs.overlay }}
 inputs:
+  github_container_registry_token:
+    description: 'A GitHub Personal Access Token with `write:packages` scope'
+    required: true
   name:
-    description: 'Name of the app (eg. Broadband Plans)'
-    required: true
-  namespace:
-    description: 'Kubernetes namespace to deploy to'
-    required: true
-  overlay:
-    description: 'Kustomize overlay to apply (eg. staging, production)'
+    description: 'Name of the App (eg. Broadband Plans)'
     required: true
