@@ -38,6 +38,12 @@ APP="${GITHUB_REPOSITORY/switcher-ie\//}"
 export PATH="$PATH:/bin"
 
 ################################################################################
+# Login to GitHub Container Registry
+################################################################################
+
+echo "$INPUT_GITHUB_CONTAINER_REGISTRY_TOKEN" | docker login ghcr.io -u switcher-ie-deploy --password-stdin
+
+################################################################################
 # Login to ECR
 ################################################################################
 
