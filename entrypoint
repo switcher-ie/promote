@@ -38,10 +38,26 @@ APP="${GITHUB_REPOSITORY/switcher-ie\//}"
 export PATH="$PATH:/bin"
 
 ################################################################################
+# Setup Failed Deployment Handler
+################################################################################
+
+failed_deployment() {
+  update-deployment-status "$APP" "$OVERLAY" "$NAMESPACE" "$INPUT_DEPLOYMENT_STATUSES_URL" 'failure'
+}
+
+trap 'failed_deployment' ERR
+
+################################################################################
+# Update Deployment Status (In Progress)
+################################################################################
+
+update-deployment-status "$APP" "$OVERLAY" "$NAMESPACE" "$INPUT_DEPLOYMENT_STATUSES_URL" 'in_progress'
+
+################################################################################
 # Login to GitHub Container Registry
 ################################################################################
 
-echo "$INPUT_GITHUB_CONTAINER_REGISTRY_TOKEN" | docker login ghcr.io -u switcher-ie-deploy --password-stdin
+echo "$INPUT_GITHUB_ACCESS_TOKEN" | docker login ghcr.io -u switcher-ie-deploy --password-stdin
 
 ################################################################################
 # Login to ECR
@@ -56,7 +72,7 @@ $(aws ecr get-login --no-include-email)
 promote "${NAMESPACE}" "${OVERLAY}" "${TAG}" "${APP}"
 
 ################################################################################
-# Notify Slack
+# Update Deployment Status (Success)
 ################################################################################
 
-slack "${SLACK_WEBHOOK}" "development" "${NAME}" "$GITHUB_SHA" "https://github.com/$GITHUB_REPOSITORY/commit/$GITHUB_SHA" "${TAG}" "${NAMESPACE}"
+update-deployment-status "$APP" "$OVERLAY" "$NAMESPACE" "$INPUT_DEPLOYMENT_STATUSES_URL" 'success'

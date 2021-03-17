@@ -17,6 +17,8 @@ inputs:
   overlay:
     description: 'Kustomize overlay to apply (eg. staging, production)'
     required: true
-  github_container_registry_token:
-    description: 'A GitHub Personal Access Token with `write:packages` scope'
+  github_access_token:
+    description: 'A GitHub Personal Access Token with `repo`, and `write:packages` scope'
     required: true
+  deployment_statuses_url:
+    description: 'URL where deployment statuses can be created'
