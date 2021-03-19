@@ -4,21 +4,14 @@ runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
-    - ${{ inputs.name }}
-    - ${{ inputs.namespace }}
-    - ${{ inputs.overlay }}
+    - ${{ inputs.environment }}
 inputs:
-  name:
-    description: 'Name of the app (eg. Broadband Plans)'
+  deployment_statuses_url:
+    description: 'URL where deployment statuses can be created'
     required: true
-  namespace:
-    description: 'Kubernetes namespace to deploy to'
-    required: true
-  overlay:
-    description: 'Kustomize overlay to apply (eg. staging, production)'
+  environment:
+    description: "Environment to deploy to either 'production' or 'staging/$NAMESPACE'"
     required: true
   github_access_token:
     description: 'A GitHub Personal Access Token with `repo`, and `write:packages` scope'
     required: true
-  deployment_statuses_url:
-    description: 'URL where deployment statuses can be created'

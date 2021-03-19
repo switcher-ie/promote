@@ -7,22 +7,21 @@ set -eo pipefail
 ################################################################################
 
 function usage {
-    echo "usage: $0 [webhook] [channel] [app] [sha]"
-    echo "  name         name of the app (eg. Broadband Plans)"
-    echo "  namespace    Kuberenetes namespace to deploy to (eg. fuchsia)"
-    echo "  overlay      Kubstomize overlay to apply (eg. staging...)"
+    echo "usage: $0 [environment]"
+    echo "  environment  either 'production' or 'staging/\$NAMESPACE'"
     exit 1
 }
 
-[ -z "$3" ] && { usage; }
+[ -z "$1" ] && { usage; }
 
 ################################################################################
 # Set Inputs
 ################################################################################
 
-NAME="$1"
-NAMESPACE="$2"
-OVERLAY="$3"
+DEPLOYMENT_ENVIRONMENT="$1"
+
+ENVIRONMENT=$(echo "$DEPLOYMENT_ENVIRONMENT" | cut -d/ -f1)
+NAMESPACE=$(echo "$DEPLOYMENT_ENVIRONMENT" | cut -d/ -f2)
 
 ################################################################################
 # Set Variables
@@ -42,7 +41,7 @@ export PATH="$PATH:/bin"
 ################################################################################
 
 failed_deployment() {
-  update-deployment-status "$APP" "$OVERLAY" "$NAMESPACE" "$INPUT_DEPLOYMENT_STATUSES_URL" 'failure'
+  update-deployment-status "$APP" "$ENVIRONMENT" "$NAMESPACE" "$INPUT_DEPLOYMENT_STATUSES_URL" 'failure'
 }
 
 trap 'failed_deployment' ERR
@@ -51,7 +50,7 @@ trap 'failed_deployment' ERR
 # Update Deployment Status (In Progress)
 ################################################################################
 
-update-deployment-status "$APP" "$OVERLAY" "$NAMESPACE" "$INPUT_DEPLOYMENT_STATUSES_URL" 'in_progress'
+update-deployment-status "$APP" "$ENVIRONMENT" "$NAMESPACE" "$INPUT_DEPLOYMENT_STATUSES_URL" 'in_progress'
 
 ################################################################################
 # Login to GitHub Container Registry
@@ -69,10 +68,10 @@ $(aws ecr get-login --no-include-email)
 # Promote
 ################################################################################
 
-promote "${NAMESPACE}" "${OVERLAY}" "${TAG}" "${APP}"
+promote "${NAMESPACE}" "${ENVIRONMENT}" "${TAG}" "${APP}"
 
 ################################################################################
 # Update Deployment Status (Success)
 ################################################################################
 
-update-deployment-status "$APP" "$OVERLAY" "$NAMESPACE" "$INPUT_DEPLOYMENT_STATUSES_URL" 'success'
+update-deployment-status "$APP" "$ENVIRONMENT" "$NAMESPACE" "$INPUT_DEPLOYMENT_STATUSES_URL" 'success'
