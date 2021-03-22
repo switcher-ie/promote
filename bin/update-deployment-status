@@ -1,0 +1,57 @@
+#!/usr/bin/env bash
+
+set -eo pipefail
+
+################################################################################
+# Validate Inputs
+################################################################################
+
+function usage {
+    echo "usage: $0 [app] [environment] [namespace] [deployment_status_url] [state]"
+    echo "  app                      app being deployed"
+    echo "  environment              environment being deployed"
+    echo "  namespace                staging namespace if applicable"
+    echo "  deployment_status_url    URL to POST Deployment Statuses to"
+    echo "  state                    A valid Deployment state"
+    exit 1
+}
+
+[ -z "$5" ] && { usage; }
+
+################################################################################
+# Set Inputs
+################################################################################
+
+APP=$1
+ENVIRONMENT=$2
+NAMESPACE=$3
+DEPLOYMENT_STATUS_URL=$4
+STATE=$5
+
+################################################################################
+# POST Deployment Status
+################################################################################
+
+TARGET_URL="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+
+if [[ "$STATE" == "success" ]]; then
+  if [[ "$ENVIRONMENT" == "production" ]]; then
+    DOMAIN="switcher.ie"
+  else
+    DOMAIN="$NAMESPACE.comparison.dev"
+  fi
+
+  if [[ "$APP" == "cms" ]]; then
+    ENVIRONMENT_URL="https://$DOMAIN"
+  else
+    ENVIRONMENT_URL="https://$APP.$DOMAIN"
+  fi
+fi
+
+PAYLOAD=$(jq --null-input --arg state "$STATE" --arg target_url "$TARGET_URL" --arg environment_url "$ENVIRONMENT_URL" '$ARGS.named')
+
+curl --fail \
+     --user "switcher-ie-deploy:$INPUT_GITHUB_ACCESS_TOKEN" \
+     --header 'Accept: application/vnd.github.flash-preview+json' \
+     --data "$PAYLOAD" \
+     "$DEPLOYMENT_STATUS_URL"
