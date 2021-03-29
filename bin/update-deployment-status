@@ -41,7 +41,9 @@ if [[ "$STATE" == "success" ]]; then
     DOMAIN="$NAMESPACE.comparison.dev"
   fi
 
-  if [[ "$APP" == "cms" ]]; then
+  if [[ "$APP" == "env" ]]; then
+    ENVIRONMENT_URL="https://comparison.dev"
+  elif [[ "$APP" == "cms" ]]; then
     ENVIRONMENT_URL="https://$DOMAIN"
   else
     ENVIRONMENT_URL="https://$APP.$DOMAIN"
