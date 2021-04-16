@@ -32,7 +32,7 @@ chmod +x /usr/local/bin/kubectl
 ################################################################################
 # Kustomize
 ################################################################################
-curl -s https://api.github.com/repos/kubernetes-sigs/kustomize/releases/tags/kustomize/v3.4.0 |\
+curl -s https://api.github.com/repos/kubernetes-sigs/kustomize/releases/tags/kustomize/v4.1.2 |\
     jq -r '.assets[].browser_download_url' |\
     grep linux_amd64 |\
     xargs curl -o kustomize.tar.gz -L
