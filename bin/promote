@@ -65,10 +65,16 @@ aws eks update-kubeconfig --name $EKS_CLUSTER
 ${DIR}/pre-release "${NAMESPACE}" "${TAG}" "${APP}"
 
 ################################################################################
-# Set properties
+# Set Image & Configure Deployment Labeller
 ################################################################################
 
 pushd k8s/overlays/$OVERLAY
+
+DEPLOYMENT_LABELLER_TEMPLATE="/deploymentLabeller.yaml"
+APP="$APP" yq eval '(.labels.["switcher.ie/app"] = env(APP)) | (.labels.["switcher.ie/sha"] = env(GITHUB_SHA))' $DEPLOYMENT_LABELLER_TEMPLATE > deploymentLabeller.yaml
+
+kustomize edit add transformer deploymentLabeller.yaml
+
 kustomize edit set image unset=$RELEASE_IMAGE
 popd
 
