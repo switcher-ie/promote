@@ -1,0 +1,12 @@
+apiVersion: builtin
+kind: LabelTransformer
+metadata:
+  name: DeploymentLabeller
+labels:
+  switcher.ie/app: $APP
+  switcher.ie/sha: $GITHUB_SHA
+fieldSpecs:
+- path: metadata/labels
+  create: true
+  kind: Deployment
+
