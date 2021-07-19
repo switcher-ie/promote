@@ -5,7 +5,7 @@ set -eo pipefail
 ################################################################################
 # AWS
 ################################################################################
-curl -o awscli-bundle.zip "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip"
+curl -o awscli-bundle.zip "https://s3.amazonaws.com/aws-cli/awscli-bundle-1.19.112.zip"
 unzip -o awscli-bundle.zip
 ./awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws
 rm -rf awscli-bundle awscli-bundle.zip
