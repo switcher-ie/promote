@@ -24,7 +24,7 @@ function usage {
 
 APP=$1
 ENVIRONMENT=$2
-NAMESPACE=$3
+# NAMESPACE=$3
 DEPLOYMENT_STATUS_URL=$4
 STATE=$5
 
@@ -37,16 +37,14 @@ TARGET_URL="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_
 if [[ "$STATE" == "success" ]]; then
   if [[ "$ENVIRONMENT" == "production" ]]; then
     DOMAIN="switcher.ie"
-  else
-    DOMAIN="$NAMESPACE.comparison.dev"
-  fi
 
-  if [[ "$APP" == "env" ]]; then
-    ENVIRONMENT_URL="https://comparison.dev"
-  elif [[ "$APP" == "cms" ]]; then
+  if [[ "$APP" == "cms" ]]; then
     ENVIRONMENT_URL="https://$DOMAIN"
   else
     ENVIRONMENT_URL="https://$APP.$DOMAIN"
+  fi
+  else
+    ENVIRONMENT_URL="https://staging.switcher.systems"
   fi
 fi
 
