@@ -24,7 +24,9 @@ NAMESPACE=$1
 # Wait for each rollout
 ################################################################################
 
-for config in k8s/base/deployments/*.yaml; do
-  deployment=$(yq e '.metadata.name' $config)
-  kubectl rollout status deployment/$deployment -n $NAMESPACE
-done
+if [[ -d "k8s/base/deployments" ]]; then
+  for config in k8s/base/deployments/*.yaml; do
+    deployment=$(yq e '.metadata.name' $config)
+    kubectl rollout status deployment/$deployment -n $NAMESPACE
+  done
+fi
