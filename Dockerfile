@@ -1,4 +1,4 @@
-FROM alpine:latest
+FROM alpine:3.15.4
 
 RUN apk add bash curl docker git jq mailcap python2
 
