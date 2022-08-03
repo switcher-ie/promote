@@ -42,8 +42,8 @@ popd
 # Cleanup old migration jobs
 ################################################################################
 
-if kubectl get jobs -n $NAMESPACE | grep -q $APP-migration; then
-  kubectl delete job/$APP-migration -n $NAMESPACE
+if kubectl get jobs -n "$NAMESPACE" -o name | grep -q "^job.batch/$APP-migration$"; then
+  kubectl delete "job/$APP-migration" -n "$NAMESPACE"
 fi
 
 ################################################################################
