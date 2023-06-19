@@ -25,6 +25,12 @@ TAG=$2
 APP=$3
 
 ################################################################################
+# Set Variables
+################################################################################
+
+REPOSITORY="$ECR_ENDPOINT/$APP"
+
+################################################################################
 # Constants
 ################################################################################
 
@@ -34,9 +40,28 @@ DIR="$(dirname "${BASH_SOURCE[0]}")"
 # Execute Pre Release Scripts
 ################################################################################
 
-[ ! -d k8s/pre-release ] && exit 0
+PRE_RELEASE_LABEL_NAME="${APP}/pre-release"
 
-${DIR}/pre-release-scripts/db-migrate $NAMESPACE $TAG $APP
+for directory in k8s/pre-release/*; do
+  [ -d "$directory" ] || continue
+
+  PRE_RELEASE_NAME=$(basename "$directory")
+  PRE_RELEASE_RUN_ID="${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+  PRE_RELEASE_ID="${PRE_RELEASE_NAME}-${PRE_RELEASE_RUN_ID}"
+
+  echo "::group::${PRE_RELEASE_ID}"
+
+  pushd "$directory"
+  kustomize edit set image unset=$REPOSITORY:$TAG
+  kustomize edit set namesuffix -- "-${PRE_RELEASE_RUN_ID}"
+  kustomize edit set label "${PRE_RELEASE_LABEL_NAME}:${PRE_RELEASE_ID}"
+  popd
+
+  kubectl apply --kustomize "$directory" --namespace "$NAMESPACE"
+  kubectl wait --namespace "$NAMESPACE" --for=condition=complete --selector="${PRE_RELEASE_LABEL_NAME}=${PRE_RELEASE_ID}" --timeout=15m job
+
+  echo "::endgroup::"
+done
 
 if [ "$APP" == "cms" ]; then
   ${DIR}/pre-release-scripts/push-cms-assets $NAMESPACE $TAG
