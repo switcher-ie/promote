@@ -38,7 +38,6 @@ BUCKET_NAME="switcher-$NAMESPACE-cms-assets"
 PUBLIC="$(mktemp -d)"
 CONTAINER_ID=$(docker create "$IMAGE")
 docker cp "$CONTAINER_ID:/app/public/assets" "$PUBLIC"
-docker cp "$CONTAINER_ID:/app/public/packs" "$PUBLIC"
 docker rm --volumes "$CONTAINER_ID"
 
 ################################################################################
