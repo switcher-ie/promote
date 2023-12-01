@@ -9,4 +9,13 @@ fieldSpecs:
 - path: metadata/labels
   create: true
   kind: Deployment
-
+---
+apiVersion: builtin
+kind: AnnotationsTransformer
+metadata:
+  name: DeploymentLabeller
+annotations:
+fieldSpecs:
+- path: metadata/annotations
+  create: true
+  kind: Deployment

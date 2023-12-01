@@ -73,6 +73,10 @@ pushd k8s/overlays/$OVERLAY
 DEPLOYMENT_LABELLER_TEMPLATE="/deploymentLabeller.yaml"
 APP="$APP" yq eval '(.labels.["switcher.ie/app"] = env(APP)) | (.labels.["switcher.ie/sha"] = env(GITHUB_SHA))' $DEPLOYMENT_LABELLER_TEMPLATE > deploymentLabeller.yaml
 
+if [[ ! -z "$INPUT_DEPLOYMENT_PULL_REQUEST_URL" ]]; then
+  yq eval --inplace '(.annotations.["switcher.ie/pull_request"] = env(INPUT_DEPLOYMENT_PULL_REQUEST_URL))' deploymentLabeller.yaml
+fi
+
 kustomize edit add transformer deploymentLabeller.yaml
 
 kustomize edit set image unset=$RELEASE_IMAGE

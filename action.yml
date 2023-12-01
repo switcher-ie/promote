@@ -9,6 +9,9 @@ inputs:
   deployment_statuses_url:
     description: 'URL where deployment statuses can be created'
     required: true
+  deployment_pull_request_url:
+    description: "URL for Pull Request which triggered this deployment"
+    required: false
   environment:
     description: "Environment to deploy to either 'production' or 'staging/$NAMESPACE'"
     required: true
