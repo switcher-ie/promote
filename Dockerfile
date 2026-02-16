@@ -1,6 +1,6 @@
-FROM alpine:3.15.4
+FROM alpine:3.21
 
-RUN apk add bash curl docker git jq mailcap python2
+RUN apk add bash curl docker git jq mailcap python3 py3-pip
 
 COPY dependencies dependencies
 RUN chmod +x dependencies && ./dependencies && rm dependencies

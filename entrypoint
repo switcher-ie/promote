@@ -62,7 +62,7 @@ echo "$INPUT_GITHUB_ACCESS_TOKEN" | docker login ghcr.io -u switcher-ie-deploy -
 # Login to ECR
 ################################################################################
 
-$(aws ecr get-login --no-include-email)
+aws ecr get-login-password | docker login --username AWS --password-stdin "$ECR_ENDPOINT"
 
 ################################################################################
 # Promote
